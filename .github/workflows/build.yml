@@ -28,3 +28,6 @@ jobs:
       with:
         name: veh_patch_dlls
         path: build/bin/*.dll
+        - name: Configure project
+  run: cmake -S . -B build -A x64
+
