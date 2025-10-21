@@ -27,8 +27,17 @@ jobs:
       - name: Build DLLs
         run: cmake --build build --config Release
 
+      - name: Debug - List build artifacts
+        run: |
+          echo "Listing all DLL files in build directory:"
+          dir build\**\*.dll /s /b
+        shell: cmd
+
       - name: Upload DLL artifacts
         uses: actions/upload-artifact@v4
         with:
           name: veh_patch_build
-          path: build/**/*.dll
+          path:
+            # 修正YAML列表格式，确保每行缩进一致
+            build/Release/*.dll
+            build/**/Release/*.dll
