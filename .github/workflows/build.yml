@@ -1,7 +1,3 @@
-- name: Build project
-  run: cmake -S . -B build && cmake --build build --config Release
-
-
 name: Build veh_patch DLLs
 
 on:
@@ -13,20 +9,19 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      - name: 安装 CMake
-        uses: lukka/get-cmake@v3.27.9
+    - name: Install CMake
+      uses: jwlawson/actions-setup-cmake@v1
+      with:
+        cmake-version: '3.27.0'
 
-      - name: 配置 CMake
-        run: cmake -S . -B build
+    - name: Configure and Build
+      run: cmake -S . -B build && cmake --build build --config Release
 
-      - name: 构建 DLL
-        run: cmake --build build --config Release
-
-      - name: 上传构建结果
-        uses: actions/upload-artifact@v4
-        with:
-          name: veh_patch_build
-          path: build/Release/*.dll
+    - name: Upload DLLs
+      uses: actions/upload-artifact@v4
+      with:
+        name: veh_patch_build
+        path: build/Release/*.dll
