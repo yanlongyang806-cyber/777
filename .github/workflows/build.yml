@@ -12,23 +12,23 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Install CMake
-      uses: lukka/get-cmake@latest
+      - name: Install CMake
+        uses: lukka/get-cmake@latest
 
-    - name: Setup MSVC
-      uses: microsoft/setup-msbuild@v2
+      - name: Setup MSVC
+        uses: microsoft/setup-msbuild@v2
 
-    - name: Configure CMake (x64)
-      run: cmake -S . -B build -A x64
+      - name: Configure CMake (x64)
+        run: cmake -S . -B build -A x64
 
-    - name: Build DLLs
-      run: cmake --build build --config Release
+      - name: Build DLLs
+        run: cmake --build build --config Release
 
-    - name: Upload DLL artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: veh_patch_build
-        path: build/**/*.dll
+      - name: Upload DLL artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: veh_patch_build
+          path: build/**/*.dll
