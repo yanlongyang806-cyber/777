@@ -6,3 +6,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Release)
 
 add_library(veh_patch SHARED src/veh_patch_basic.cpp)
 add_library(veh_patch_smart SHARED src/veh_patch_smart.cpp)
+
+- name: Configure CMake
+  run: cmake -A x64 -S . -B build
