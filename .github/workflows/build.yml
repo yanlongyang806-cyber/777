@@ -1,9 +1,7 @@
-name: Build VEH Patch DLL
+name: Build veh_patch DLLs
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
     branches: [ main ]
 
 jobs:
@@ -11,23 +9,20 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v3
 
-    - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v2
+      - name: 安装 CMake
+        uses: lukka/get-cmake@v3.27.9
 
-    - name: Setup CMake
-      uses: lukka/get-cmake@v3
+      - name: 配置 CMake
+        run: cmake -S . -B build
 
-    - name: Configure CMake
-      run: cmake -S . -B build
+      - name: 构建 DLL
+        run: cmake --build build --config Release
 
-    - name: Build project
-      run: cmake --build build --config Release
-
-    - name: Upload DLL artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: veh_patch_build
-        path: build/Release/*.dll
+      - name: 上传构建结果
+        uses: actions/upload-artifact@v4
+        with:
+          name: veh_patch_build
+          path: build/Release/*.dll
