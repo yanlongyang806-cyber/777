@@ -3,25 +3,27 @@ name: Build veh_patch DLLs
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: windows-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v4
 
     - name: Install CMake
-      uses: jwlawson/actions-setup-cmake@v1
-      with:
-        cmake-version: '3.27.0'
+      uses: lukka/get-cmake@latest
 
-    - name: Configure and Build
-      run: cmake -S . -B build && cmake --build build --config Release
+    - name: Configure CMake
+      run: cmake -S . -B build
 
-    - name: Upload DLLs
+    - name: Build DLL
+      run: cmake --build build --config Release
+
+    - name: Upload DLL artifacts
       uses: actions/upload-artifact@v4
       with:
         name: veh_patch_build
-        path: build/Release/*.dll
+        path: build/**/*.dll
