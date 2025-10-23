@@ -1,11 +1,21 @@
-cmake_minimum_required(VERSION 3.15)
-project(veh_patch_project LANGUAGES CXX)
+cmake_minimum_required(VERSION 3.10)
+project(VehPatchSmart)
 
-set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Release)
+set(CMAKE_CXX_STANDARD 14)
 
-add_library(veh_patch SHARED src/veh_patch_basic.cpp)
-add_library(veh_patch_smart SHARED src/veh_patch_smart.cpp)
+# 设置输出目录
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/output)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/output)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/output)
 
-- name: Configure CMake
-  run: cmake -A x64 -S . -B build
+# 包含源代码文件
+include_directories(${CMAKE_SOURCE_DIR}/src)
+
+# 收集所有 cpp 文件
+file(GLOB SOURCES ${CMAKE_SOURCE_DIR}/src/*.cpp)
+
+# 创建共享库（DLL）
+add_library(veh_patch_smart SHARED ${SOURCES})
+
+# 设置输出文件名
+set_target_properties(veh_patch_smart PROPERTIES OUTPUT_NAME "veh_patch_smart")
